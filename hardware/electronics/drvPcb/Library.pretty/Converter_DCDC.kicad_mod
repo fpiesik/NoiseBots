@@ -1,0 +1,136 @@
+(footprint "Converter_DCDC"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "DCDC-Converter, TRACO, TMU3-05xx, TMU3-12xx, 3W, Rev. November 10. 2023 (Script generated with StandardBox.py) (https://www.tracopower.com/products/tmu3.pdf)")
+	(tags "DCDC-Converter TRACO TMU3 THT SIP-4 3W")
+	(property "Reference" "DCDC1"
+		(at 22.525 -18.72 0)
+		(layer "F.SilkS")
+		(uuid "d75d6b2d-5eb9-43c4-a9e6-bbda7c31de1e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "~"
+		(at 29 -4 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cf5d5f15-1f60-4089-b524-a77a712a0a5c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" "Converter_DCDC:Converter_DCDC_TRACO_TMU3-05xx_12xx_THT"
+		(at 21.5 -24 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5c71f294-97d5-444f-a403-b67d06bfd582")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 22.5 -15.62 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2b5f31ab-a739-4040-9d52-f143a387b064")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 22.5 -15.62 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "91445a97-2b73-41a6-bb28-21ed66d7c8a8")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_rect
+		(start 0 -21)
+		(end 44 0)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(fill none)
+		(layer "F.Cu")
+		(uuid "6f1f7b2a-056d-4d8b-8bd9-1bd0574166d5")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 21 -4 0)
+		(layer "F.Fab")
+		(uuid "16ed8b67-deac-4d7a-9f4c-667dcc88c17e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole rect
+		(at 2.5 -17.5)
+		(size 1.6 1.6)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "7bc7f605-a654-452e-9ab6-6d4e5909ddcc")
+	)
+	(pad "2" thru_hole circle
+		(at 2.5 -3)
+		(size 1.6 1.6)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "73ae46c5-776c-4275-aa74-e58a23006fac")
+	)
+	(pad "3" thru_hole circle
+		(at 40 -18)
+		(size 1.6 1.6)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "781cd301-8769-478e-9b96-37f030e0bdd1")
+	)
+	(pad "4" thru_hole circle
+		(at 40 -3)
+		(size 1.6 1.6)
+		(drill 1.1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "4c68153a-7ef4-4520-abb3-10fb67f38293")
+	)
+	(model "${KICAD8_3DMODEL_DIR}/Converter_DCDC.3dshapes/Converter_DCDC_TRACO_TMU3-05xx_12xx_THT.wrl"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

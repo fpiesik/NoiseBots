@@ -16,6 +16,7 @@ void tunePPos(int pp, int stp){
   go2(pPos[pp]);
   //delay(100);
   kick(0.5);
+  if (pp==0) pPosOff[pp]=0;
 //    Serial.print("pPos-");
 //    Serial.print(pp,0);
 //    Serial.print(" ");

@@ -8,7 +8,7 @@ Servo servo2;
 
 
 const int nPitch=18;
-int root=26;
+int root=24;
 int midiChn=8;
 
 int pPos[nPitch];

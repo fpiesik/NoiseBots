@@ -7,7 +7,6 @@ nema17_holeDist=31;
 Nema17_gearDia=23;
 
 slotWthick=4;
-
 //-------Parameter triplePytho------------------------------------------------
 
 strScale=800;

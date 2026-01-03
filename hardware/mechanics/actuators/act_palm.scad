@@ -24,7 +24,7 @@ translate([0,0,0])palm();
 }
 }
 
-oneString();
+//oneString();
 
 module palm(){
   palmDia=28;

@@ -1,16 +1,14 @@
 include <../parameter.scad>
 strSpanB=10;
 bodySlotX=100;
+diameter=16;
 
-//kickup(0);
+//kickup(3);
 //cap();
 
 module kickup(orient){
 $fn=32;
-strings=2;
-spacing=strSpanB;//52;
-echo (spacing);
-diameter=15;
+
 wall=2;
 coilZ=15;
 bottomZ=2;
@@ -18,7 +16,7 @@ t=0.3;
 ySpacing=12;
 
 bX = slotXY;
-bY=ySpacing+diameter+wall*1;
+bY=ySpacing+diameter+wall;
 bZ=coilZ+bottomZ+t;
 
 tX = bX;
@@ -35,11 +33,13 @@ conMntY=6.3;
 conMntZ=12;
 conWt=1.5;
 
-screwMdia=4.3;
+screwMdia=3;
+screwMHDia=5.5;
+screwMHh=1.8;
 screwAdia=4.3;
 
-mntTh=4.5;
-mX=bX+slotXY+mntTh;
+mntTh=3;
+mX=bX+slotXY+mntTh+0.3;
 
 
 module mnt(){
@@ -53,10 +53,13 @@ difference(){
     translate([-bX/2-slotXY,0,(bZ+tZ)-m5Dia*1.5])rotate([0,-90,0])cylinder(d=m5Dia,h=bZ,center=true);
     }
     
-    translate([0,bY/2-screwMdia,-mntTh-1])cylinder(d=screwMdia,h=bZ);
-    translate([0,-bY/2+screwMdia,-mntTh-1])cylinder(d=screwMdia,h=bZ);
+    translate([0,bY/2-(bY-diameter)/4,-mntTh-0.01])cylinder(d2=screwMdia,d1=screwMHDia,h=screwMHh);
+		translate([0,bY/2-(bY-diameter)/4,-mntTh-1])cylinder(d=screwMdia,h=mntTh*2);
+
+    translate([0,-(bY/2-(bY-diameter)/4),-mntTh-0.01])cylinder(d2=screwMdia,d1=screwMHDia,h=screwMHh);
+    translate([0,-(bY/2-(bY-diameter)/4),-mntTh-1])cylinder(d=screwMdia,h=bZ);
     
-    translate([0,0,-mntTh-1])cylinder(d=screwMdia*2+1,h=bZ);
+    translate([0,0,-mntTh-1])cylinder(d=screwMdia*2+4,h=bZ);
     translate([-bX/2+conMntX/2,0,0])cube([conMntX+conWt,conMntY+conWt,conMntZ],center=true);
 }
 }
@@ -76,8 +79,8 @@ translate([0,0,bottomZ])rotate([0,0,30])cylinder(d=diameter,h=100,$fn=6);
 translate([0,0,0])cylinder(d=screwAdia,h=100);
 translate([0,0,conMntZ-cableDia/2])rotate([0,90,0])cylinder(d=cableDia,h=100);
 }
-translate([0,bY/2-screwMdia,0])cylinder(d=screwMdia,h=bZ);
-translate([0,-bY/2+screwMdia,0])cylinder(d=screwMdia,h=bZ);
+translate([0,bY/2-(bY-diameter)/4,0])cylinder(d=screwMdia-0.2,h=bZ);
+translate([0,-bY/2+(bY-diameter)/4,0])cylinder(d=screwMdia-0.2,h=bZ);
 }
 }
 
@@ -91,8 +94,10 @@ translate([0,0,0]){
 translate([0,0,-tbottomZ])cylinder(d=tDia,h=tZ);
 cylinder(d=screwTdia,h=tZ);
 }
-translate([0,bY/2-screwMdia,0])cylinder(d=screwMdia,h=tZ);
-translate([0,-bY/2+screwMdia,0])cylinder(d=screwMdia,h=tZ);
+translate([0,bY/2-(bY-diameter)/4,tZ])rotate([180,0,0])cylinder(d1=screwMHDia,d2=screwMdia,h=screwMHh);
+translate([0,bY/2-(bY-diameter)/4,0])cylinder(d=screwMdia+0.3,h=tZ);
+translate([0,-bY/2+(bY-diameter)/4,tZ])rotate([180,0,0])cylinder(d1=screwMHDia,d2=screwMdia,h=screwMHh);
+translate([0,-bY/2+(bY-diameter)/4,0])cylinder(d=screwMdia+0.3,h=tZ);
 }
 }
 
@@ -132,7 +137,7 @@ loweridlerZ=1.8;
 upperidlerZ=1.8;
 rampBZ=0.2;
 rampTZ=0.2;
-coildia=14;
+coildia=diameter-0.5;
 rampdia=coildia;
 threaddepth=5;
 roofZ=loweridlerZ;
@@ -192,8 +197,9 @@ mnt();
 }
 
 module cap(){
-i_dia=10;
+i_dia=3.8;
 o_dia=13.5;
+	h=4;
 $fn=32;
 //headZ=4;
 difference(){
@@ -201,9 +207,9 @@ union(){
 difference(){
 sphere(d=o_dia);
 translate([0,0,-o_dia/2])cube([o_dia,o_dia,o_dia],center=true);}
-translate([0,0,-i_dia/2])cylinder(d=o_dia,h=i_dia/2);
+translate([0,0,-h])cylinder(d=o_dia,h=h);
 }
-translate([0,0,-i_dia/2])cylinder(d=i_dia,h=i_dia/2);
-scale([1,1,0.5])sphere(d=i_dia);
+translate([0,0,-h])cylinder(d=i_dia,h=h+o_dia/3);
+//scale([1,1,0.5])sphere(d=i_dia);
 }
 }

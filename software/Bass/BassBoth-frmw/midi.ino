@@ -11,23 +11,14 @@ void nOn(byte channel, byte note, byte velocity){
       stpSpd(float(velocity/127.00));
       go2(pPos[note-root]);
     }
-    if(note==8)stpOnOff(1,1);
-    if(note==9)goHome(0);
-    //if(note==21)stpOnOff(2,0);
-    
-    if(note<root){
-      if(note==10)tunePPos(actNote-root, -1);
-      if(note==11)tunePPos(actNote-root, 1);
-    }
-    if(note==12){
+    if(note==0){
       kick(float(velocity/127.00));
     }
-    if(note==13){
+    if(note==1){
       pick();
     }
-    if(note==14){
-      mute(velocity>=64);
-     
+    if(note==2){
+      mute(velocity>=64);    
     }
   }
 }
@@ -38,18 +29,25 @@ void nOff(byte channel, byte note, byte velocity){
 
 void ccCh(byte channel, byte cc, byte value){
   if(channel==midiChn){
-    if(cc==2)if(value>0)stpSpd(value/127.0);
-    if(cc==3)if(value>0)damp(value/127.0);
+    if(cc==1 && value<=nPitch){
+      actNote=root+value;
+      go2(pPos[value]);
+    }
+    if(cc==2 && value>0)stpSpd(value/127.0);
+    if(cc==3 && value>0)damp(value/127.0);
     //if(cc==2)kick(float(value/127.00));
     //if(cc==3)pick();
-    if(cc==4)if(value>0)mute(value>=64);
+    if(cc==4&&value>0)mute(value>=64);
     if(cc==5)goHome(0);
+    if(cc==6)stepEnbl(1,value>=64);
+    if(cc==100)tunePPos(actNote-root, -value);
+    if(cc==101)tunePPos(actNote-root, value);
   }  
 }
 
 void midiStop(){
   mute(0);
-  damp(0);
+  //damp(0);
 }
 void setMidiHandles(){
   MIDI.setHandleNoteOn(nOn);
