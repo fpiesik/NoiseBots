@@ -19,7 +19,7 @@ slotBH=250;
 drmDia=375;
 drmH=120;
 slotADist=200;
-slotWT = 4; //slot wall thickness 
+slotWT = 3.5; //slot wall thickness 
 
 difference(){
 	//cylinder(d=drmDia, h=drmH);
@@ -52,12 +52,50 @@ module put_together(){
 module pcbMnt(){
     pcbW =150;
     pcbD = 77;
-    w = pcbW;
-    d = pcbD;
+    pcbH = 1.7; //pcb height
+    pcbHU= 22; //pcb headroom up
+    pcbHD=4; //pcb headroom down
+    wTW = 1.5;
+    wTD = 1.5;
     bttmH = 2;
-    rcube([pcbW,pcbD,bttmH],3);
+    w = pcbW+wTW*2;
+    d = pcbD+wTD;
+    h = bttmH + pcbH + pcbHU + pcbHD;
+    scrwM5D=5.3;
+    scrwM3D=3;
+    brrlCD = 9;
+    midiCD= 7;
+    usbW= 10;
+    usbH= 6;
+    $fn=16;
     
-    translate([0,0,0]) rcube([slotWH+slotWT,d,slotWH],0);
+    difference(){
+        rcube([w,d,h],0);
+        translate([0,wTD/2,bttmH+pcbHD])rcube([pcbW,pcbD,bttmH+pcbH+pcbHU+pcbHD],0);
+        translate([0,wTD/2,bttmH])rcube([pcbW-4,pcbD-4,bttmH+pcbH+pcbHU+pcbHD],0);
+        
+        translate([w/2,d/3,h-6])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([-(w/2),d/3,h-6])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([w/2,-d/3,h-6])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([-(w/2),-d/3,h-6])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        
+        translate([-pcbW/2+10.1,-d/2,bttmH+pcbHD+pcbH+6.8])rotate([-90,0,0])cylinder(d=brrlCD,h=wTD*2);
+        translate([-pcbW/2+22,-d/2,bttmH+pcbHD+pcbH+6.8])rotate([-90,0,0])cylinder(d=brrlCD,h=wTD*2);
+         
+        translate([-pcbW/2+39.3,-d/2,bttmH+pcbHD+pcbH+3])rotate([-90,0,0])cylinder(d=midiCD,h=wTD*2);
+        translate([-pcbW/2+39.3+13.8,-d/2,bttmH+pcbHD+pcbH+3])rotate([-90,0,0])cylinder(d=midiCD,h=wTD*2);
+        
+        translate([-pcbW/2+93.2,-d/2,bttmH+pcbHD+pcbH+13.3])rcube([usbW,wTD*2,usbH],0);
+        
+        translate([0,-d/2,h-6])rotate([-90,0,0])cylinder(d1=5.5,d2=scrwM3D,h=wTD);
+        translate([0,d/2,(bttmH+pcbHD)/2])rotate([90,0,0])cylinder(d=scrwM3D-0.3,h=6);
+    }
+    
+    difference(){
+    translate([0,0,-slotWH])rcube([slotWH+slotWT*2,d,slotWH],0);
+    translate([0,0,-slotWH])rcube([slotWH,d,slotWH],0);    
+    translate([0,0,-slotWH/2])rotate([0,90,0])cylinder(d=scrwM5D, h=slotWH*2,center=true);  
+    }
 }
 module drmClmp(){
 	$fa = 3;
