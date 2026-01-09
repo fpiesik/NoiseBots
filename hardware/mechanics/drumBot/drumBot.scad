@@ -1,17 +1,5 @@
-include <libs/T-Slot.scad>
-//use <libs/Nema17.scad>
-//include <libs/gearRack.scad>
-//include <libs/linearBearing.scad>
-
-include <parameter.scad>
-//include <string/bridgeV2.scad>
-//include <string/tuner.scad>
-include <actuators/act_kickup.scad>
-//include <actuators/act_Pick.scad>
-//include <actuators/act_motor.scad>
-//include <actuators/act_drumroll.scad>
-//use <mount/stand_A.scad>
-
+include <../libs/T-Slot.scad>
+include <../actuators/act_kickup.scad>
 
 slotWH=20;
 slotAH=500;
@@ -58,26 +46,68 @@ module pcbMnt(){
     wTW = 2;
     wTD = 2;
     bttmH = 2;
+		topH = 2;
     w = pcbW+wTW*2;
     d = pcbD+wTD;
     h = bttmH + pcbH + pcbHU + pcbHD;
     scrwM5D=5.3;
     scrwM3D=3;
+		scrwLidP = 6;
     brrlCD = 9;
     midiCD= 7;
     usbW= 12;
     usbH= 8;
     $fn=16;
-    
+ 
+//a();
+b();
+	
+module b(){
+	tolW = 0.3;
+	tolH = 0.3;
+	tolD = 0.15;
+	cableCH = 12;
+	cableCW = 40;
+	$fn = 32; 
+	difference(){
+		translate([0,wTD/2,0])rcube([w,d+wTD,h+topH],0);
+		translate([0,0,0])rcube([w,d,h],0);
+		hull(){
+			translate([-cableCW/2,d/2,0])rotate([90,0,0])cylinder(d=cableCH*2,h=wTD*3,center=true);
+			translate([cableCW/2,d/2,0])rotate([90,0,0])cylinder(d=cableCH*2,h=wTD*3,center=true);
+		}
+
+		
+		translate([0,d/2+wTD,(bttmH+pcbHD)/2])rotate([90,0,0])cylinder(d1=5,d2=scrwM3D,h=wTD);
+		translate([w/3,d/2+wTD,(bttmH+pcbHD)/2])rotate([90,0,0])cylinder(d1=5,d2=scrwM3D,h=wTD);
+		translate([-w/3,d/2+wTD,(bttmH+pcbHD)/2])rotate([90,0,0])cylinder(d1=5,d2=scrwM3D,h=wTD);
+	}
+	difference(){
+		translate([0,wTD/2+tolD/2,bttmH+pcbHD+pcbH+tolH])rcube([w-wTW*2-tolW,d-wTD-tolD,h-bttmH-pcbHD-pcbH-tolH],0);
+		translate([0,0,0])rcube([w-wTW*4,d,h],0);
+		
+		translate([w/2,d/3,h-scrwLidP])rotate([0,-90,0])cylinder(d=scrwM3D-0.3,h=wTW*2);
+		translate([-(w/2),d/3,h-scrwLidP])rotate([0,90,0])cylinder(d=scrwM3D-0.3,h=wTW*2);
+		translate([w/2,-d/3,h-scrwLidP])rotate([0,-90,0])cylinder(d=scrwM3D-0.3,h=wTW*2);
+		translate([-(w/2),-d/3,h-scrwLidP])rotate([0,90,0])cylinder(d=scrwM3D-0.3,h=wTW*2);	
+	}
+	difference(){
+		translate([0,-d/2+wTD+2.5+tolD,h-9])rcube([9,5,9],0);
+		translate([0,-d/2+tolD,h-6])rotate([-90,0,0])cylinder(d=scrwM3D-0.3,h=10);
+	}
+
+	
+}
+module a(){	
     difference(){
         rcube([w,d,h],0);
         translate([0,wTD/2,bttmH+pcbHD])rcube([pcbW,pcbD,bttmH+pcbH+pcbHU+pcbHD],0);
         translate([0,wTD/2,bttmH])rcube([pcbW-4,pcbD-4,bttmH+pcbH+pcbHU+pcbHD],0);
         
-        translate([w/2,d/3,h-6])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
-        translate([-(w/2),d/3,h-6])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
-        translate([w/2,-d/3,h-6])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
-        translate([-(w/2),-d/3,h-6])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([w/2,d/3,h-scrwLidP])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([-(w/2),d/3,h-scrwLidP])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([w/2,-d/3,h-scrwLidP])rotate([0,-90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
+        translate([-(w/2),-d/3,h-scrwLidP])rotate([0,90,0])cylinder(d1=5.5,d2=scrwM3D,h=wTW);
         
         translate([-pcbW/2+10.1,-d/2,bttmH+pcbHD+pcbH+6.8])rotate([-90,0,0])cylinder(d=brrlCD,h=wTD*2);
         translate([-pcbW/2+22,-d/2,bttmH+pcbHD+pcbH+6.8])rotate([-90,0,0])cylinder(d=brrlCD,h=wTD*2);
@@ -99,6 +129,7 @@ module pcbMnt(){
     translate([0,0,-slotWH])rcube([slotWH+0.25,d,slotWH],0);    
     translate([0,0,-slotWH/2])rotate([0,90,0])cylinder(d=scrwM5D, h=slotWH*2,center=true);  
     }
+	}
 }
 module drmClmp(){
 	$fa = 3;
