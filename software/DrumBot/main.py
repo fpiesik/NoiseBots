@@ -27,8 +27,8 @@ MIDI_RX_PIN = 17               # GP17 as requested (DIN MIDI IN via optocoupler)
 MIDI_BAUD = 31250
 
 # --- MIDI Channel Filter ---
-# Use None for OMNI (accept all channels), or 0..15 for a specific channel (0=Ch1, 15=Ch16)
-MIDI_CHANNEL = 15 # None  # e.g. set to 0 for Channel 1 only
+# 0 = OMNI (accept all channels), 1..16 = MIDI channel 1..16
+MIDI_CHANNEL = 11
 
 # ================ Hardware Setup =================
 # Note transistors
@@ -103,14 +103,16 @@ _msg_buf = []
 
 
 def _channel_ok(status_byte):
-    """Return True if the message's channel passes the MIDI_CHANNEL filter."""
-    if MIDI_CHANNEL is None:
-        return True  # OMNI
+    """Return True if the message's channel passes the MIDI_CHANNEL filter.
+    MIDI_CHANNEL: 0=OMNI, 1..16 = exact MIDI channel.
+    """
     # Only channel voice messages have a channel nibble
-    if (status_byte & 0xF0) in (0x80, 0x90, 0xA0, 0xB0, 0xC0, 0xD0, 0xE0):
-        ch = status_byte & 0x0F
-        return ch == MIDI_CHANNEL
-    return False
+    if (status_byte & 0xF0) not in (0x80, 0x90, 0xA0, 0xB0, 0xC0, 0xD0, 0xE0):
+        return False  # not a channel voice message -> ignore
+    if MIDI_CHANNEL == 0:
+        return True  # OMNI
+    ch = (status_byte & 0x0F) + 1  # convert 0..15 -> 1..16
+    return ch == MIDI_CHANNEL
 
 
 def _start_status(status):
@@ -166,7 +168,7 @@ def poll_midi_uart():
                 _msg_buf = []
 
 # ============== Main Loop =====================
-print('Ready: UART-MIDI active (Channel = {} )'.format('OMNI' if MIDI_CHANNEL is None else MIDI_CHANNEL+1))
+print('Ready: UART-MIDI active (Channel = {} )'.format('OMNI' if MIDI_CHANNEL == 0 else MIDI_CHANNEL))
 while True:
     poll_midi_uart()
     time.sleep(0.001)
